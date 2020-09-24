@@ -1,0 +1,251 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+func _ready():
+	if !NetworkManager.is_server:
+		on_disconnected()
+		LobbyService.connect(\"client_on_gameover\", self, \"on_gameover\")
+		LobbyService.connect(\"client_on_lobby_start\", self, \"on_lobby_start\")
+		NetworkManager.connect(\"client_on_disconnected\", self, \"on_disconnected\")
+		NetworkManager.connect(\"client_on_connected\", self, \"on_connected\")
+		NetworkManager.emit_signal(\"client_start_connecting\")
+		setup_main_menu_ui()
+		setup_account_ui()
+	else:
+		$Connect/Label.text = \"Server is running\"
+
+func on_disconnected():
+	$Account.visible = false
+	$Connect.visible = true
+	$Main.visible = false
+
+func on_connected():
+	$Account.visible = true
+	$Connect.visible = false
+	$Main.visible = false
+
+func on_gameover():
+	on_show_main_menu()
+
+func on_lobby_start():
+	visible = false
+
+# Account -------
+func setup_account_ui():
+	$Account/Login.connect(\"pressed\", self, \"on_authorize_pressed\", [false])
+	$Account/Register.connect(\"pressed\", self, \"on_authorize_pressed\", [true])
+	AuthService.connect(\"client_on_authorized\", self, \"on_show_main_menu\")
+	
+func on_authorize_pressed(is_register):
+	if $Account/User.text.length() < 3 or $Account/User.text.length() > 12:
+		Notifications.notify(\"Invalid username (3 to 12 characters allowed)\")
+		return
+	if $Account/Password.text.length() < 6 or $Account/Password.text.length() > 32:
+		Notifications.notify(\"Invalid password (6 to 32 characters allowed)\")
+		return
+	
+	AuthService.client_authorize($Account/User.text, $Account/Password.text, is_register)
+
+func set_auto_login(index):
+	$Account/User.text = AuthService.auto_login_creds[index].user
+	$Account/Password.text = AuthService.auto_login_creds[index].password
+
+# Main Menu -------
+func setup_main_menu_ui():
+	$Main/Play.connect(\"pressed\", self, \"on_play_pressed\")
+	
+func on_show_main_menu():
+	$Main/AnimationPlayer.stop()
+	$Main/Play.disabled = false
+	$Account.visible = false
+	$Connect.visible = false
+	$Main.visible = true
+
+func on_play_pressed():
+	$Main/AnimationPlayer.play(\"base\")
+	LobbyService.client_play()
+	$Main/Play.disabled = true
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0.501961, 0.992157, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0.168627, 0.25098, 1 )
+
+[sub_resource type="Animation" id=4]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("ProgressBar:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 100.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ProgressBar2:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 100.0 ]
+}
+
+[node name="Main_Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Connect" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Connect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -102.5
+margin_top = -7.0
+margin_right = 102.5
+margin_bottom = 7.0
+text = "Connecting to Online-Services..."
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Account" type="Control" parent="."]
+visible = false
+anchor_right = 2.0
+anchor_bottom = 2.0
+margin_right = -1024.0
+margin_bottom = -600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="User" type="LineEdit" parent="Account"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -108.5
+margin_top = -54.2596
+margin_right = 108.5
+margin_bottom = -26.2596
+placeholder_text = "Enter Username"
+
+[node name="Password" type="LineEdit" parent="Account"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -108.5
+margin_top = -14.0
+margin_right = 108.5
+margin_bottom = 14.0
+secret = true
+placeholder_text = "Enter Password"
+
+[node name="Register" type="Button" parent="Account"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -108.0
+margin_top = 28.0
+margin_right = -13.0
+margin_bottom = 58.0
+text = "REGISTER"
+
+[node name="Login" type="Button" parent="Account"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 7.0
+margin_top = 28.0
+margin_right = 110.0
+margin_bottom = 58.0
+text = "LOGIN"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Main" type="Control" parent="."]
+visible = false
+anchor_right = 2.0
+anchor_bottom = 2.0
+margin_right = -1024.0
+margin_bottom = -600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Play" type="Button" parent="Main"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -67.0002
+margin_top = -21.4997
+margin_right = 67.0002
+margin_bottom = 21.4997
+text = "Quick Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="Main"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -66.9077
+margin_top = 28.4078
+margin_right = -2.90771
+margin_bottom = 42.4078
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar2" type="ProgressBar" parent="Main"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 65.644
+margin_top = 28.4078
+margin_right = 129.644
+margin_bottom = 42.4078
+rect_scale = Vector2( -1, 1 )
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Main"]
+anims/base = SubResource( 4 )

@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Panel
+
+var time = 0.0
+var notifications = []
+
+func _process(delta):
+	if notifications.size() > 0 and time <= 0.0:
+		$MESSAGE.text = notifications.pop_front()
+		visible = true
+		time = 3.0
+	elif time <= 0.0:
+		visible = false
+	
+	if time > 0.0:
+		time -= delta
+
+func notify(text):
+	notifications.push_back(text)
+"
+
+[node name="NOTIFICATION" type="Panel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -202.0
+margin_top = -96.0
+margin_right = -10.0
+margin_bottom = -10.0
+custom_styles/panel = SubResource( 1 )
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MESSAGE" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 9.0
+margin_top = 3.0
+margin_right = -8.0
+margin_bottom = -4.0
+text = "NOTIFICATION"
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
