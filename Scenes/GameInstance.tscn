@@ -109,3 +109,75 @@ text = "Back to Menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+margin_left = 9.0
+margin_top = 103.0
+margin_right = 137.0
+margin_bottom = 152.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel"]
+anchor_right = 1.0
+margin_top = 6.0
+margin_bottom = 20.0
+text = "LAG"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -48.5
+margin_top = -26.0
+margin_right = 48.5
+margin_bottom = -10.0
+max_value = 1.0
+step = 0.01
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel1" type="Panel" parent="CanvasLayer"]
+margin_left = 9.0
+margin_top = 164.0
+margin_right = 137.0
+margin_bottom = 213.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel1"]
+anchor_right = 1.0
+margin_top = 6.0
+margin_bottom = 20.0
+text = "LOSS"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Panel1"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -48.5
+margin_top = -26.0
+margin_right = 48.5
+margin_bottom = -10.0
+min_value = 2.0
+max_value = 5.0
+step = 1.0
+value = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

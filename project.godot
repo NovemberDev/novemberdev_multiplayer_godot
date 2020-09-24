@@ -14,10 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Types/BaseClass.gd"
 }, {
+"base": "Node",
+"class": "ClientSnapshot",
+"language": "GDScript",
+"path": "res://Scripts/Types/ClientSnapshot.gd"
+}, {
 "base": "BaseClass",
 "class": "LobbyClass",
 "language": "GDScript",
 "path": "res://Scripts/Types/LobbyClass.gd"
+}, {
+"base": "Node",
+"class": "ServerSnapshot",
+"language": "GDScript",
+"path": "res://Scripts/Types/ServerSnapshot.gd"
 }, {
 "base": "BaseClass",
 "class": "UserClass",
@@ -26,7 +36,9 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "BaseClass": "",
+"ClientSnapshot": "",
 "LobbyClass": "",
+"ServerSnapshot": "",
 "UserClass": ""
 }
 

@@ -40,18 +40,23 @@ func _process(delta):
 		if Input.is_action_just_pressed("ui_select") and shoot_timeout <= 0.0:
 			game_instance.rpc_id(1, "cl_shoot", aim_direction)
 			shoot_timeout = SHOOT_TIMEOUT
-	
+		
+		client_send_snapshot()
+		
 		set_anim("parameters/movement/blend_position", Vector2(1, -1) * direction_input)
 		set_anim("parameters/movement_time/scale", direction_input.length())
+		
 		velocity = move_and_slide(direction_input * SPEED)
 
+func server_handle_cl_snapshot(client_snapshot):
+	global_position = client_snapshot.position
+
+func client_send_snapshot():
+	var cl_snapshot = ClientSnapshot.new()
+	cl_snapshot.position = global_position
+	game_instance.client_send_snapshot(cl_snapshot.to_object())
+
 func _physics_process(delta):
-	if is_network_master():
-		game_instance.rpc_unreliable_id(1, "cl_sync_transform", {
-			position = global_position,
-			# More lag prediction, extrapolate using velocity vector
-			# velocity = velocity,
-		})
 	$Info.text = str(username)
 
 func set_anim(key, value):

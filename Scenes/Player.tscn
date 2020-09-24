@@ -6,7 +6,7 @@
 [ext_resource path="res://Assets/eye.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=5]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ],
 "loop": false,
@@ -14,7 +14,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 length = 0.3
 loop = true
 step = 0.01
@@ -55,7 +55,7 @@ tracks/2/keys = {
 "values": [ 7.72939, -16.5958, 7.72939 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 length = 0.3
 loop = true
 step = 0.01
@@ -96,7 +96,7 @@ tracks/2/keys = {
 "values": [ 7.72939, -16.5958, 7.72939 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "walk_sideways_left"
 length = 0.3
 loop = true
@@ -150,7 +150,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 length = 0.3
 loop = true
 step = 0.01
@@ -203,57 +203,56 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "walk_sideways_left"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "walk_sideways_right"
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "walk_backward"
 
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "walk_forward"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=13]
-blend_point_0/node = SubResource( 9 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=10]
+blend_point_0/node = SubResource( 6 )
 blend_point_0/pos = Vector2( -1, 0 )
-blend_point_1/node = SubResource( 10 )
+blend_point_1/node = SubResource( 7 )
 blend_point_1/pos = Vector2( 1, 0 )
-blend_point_2/node = SubResource( 11 )
+blend_point_2/node = SubResource( 8 )
 blend_point_2/pos = Vector2( 0, 1 )
-blend_point_3/node = SubResource( 12 )
+blend_point_3/node = SubResource( 9 )
 blend_point_3/pos = Vector2( 0, -1 )
 blend_mode = 1
 
-[sub_resource type="AnimationNodeTimeScale" id=14]
+[sub_resource type="AnimationNodeTimeScale" id=11]
 
-[sub_resource type="AnimationNodeBlendTree" id=16]
+[sub_resource type="AnimationNodeBlendTree" id=12]
 graph_offset = Vector2( -447, 56 )
-nodes/movement/node = SubResource( 13 )
+nodes/movement/node = SubResource( 10 )
 nodes/movement/position = Vector2( -200, 100 )
-nodes/movement_time/node = SubResource( 14 )
+nodes/movement_time/node = SubResource( 11 )
 nodes/movement_time/position = Vector2( 40, 100 )
 nodes/output/position = Vector2( 260, 100 )
 node_connections = [ "output", 0, "movement_time", "movement_time", 0, "movement" ]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 24.9816, 35.8542 )
 
-[sub_resource type="StyleBoxFlat" id=20]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.203922, 0.392157, 0.839216, 1 )
 
-[sub_resource type="StyleBoxFlat" id=21]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
-[sub_resource type="Gradient" id=18]
+[sub_resource type="Gradient" id=16]
 colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=19]
-gradient = SubResource( 18 )
+[sub_resource type="GradientTexture" id=17]
+gradient = SubResource( 16 )
 
-[sub_resource type="Animation" id=17]
-resource_name = "damage"
+[sub_resource type="Animation" id=18]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:modulate")
@@ -278,17 +277,17 @@ light_mask = 2
 position = Vector2( 1.12246, -0.491079 )
 rotation = 0.134903
 scale = Vector2( 7.32464, 7.32464 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/walk_backward = SubResource( 4 )
-anims/walk_forward = SubResource( 5 )
-anims/walk_sideways_left = SubResource( 6 )
-anims/walk_sideways_right = SubResource( 7 )
+anims/walk_backward = SubResource( 2 )
+anims/walk_forward = SubResource( 3 )
+anims/walk_sideways_left = SubResource( 4 )
+anims/walk_sideways_right = SubResource( 5 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 16 )
+tree_root = SubResource( 12 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/movement/blend_position = Vector2( 0, 1 )
@@ -303,7 +302,7 @@ texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1.33633, -2.6727 )
-shape = SubResource( 1 )
+shape = SubResource( 13 )
 
 [node name="Info" type="Label" parent="."]
 margin_left = -94.3406
@@ -323,8 +322,8 @@ margin_left = -48.2703
 margin_top = -80.7838
 margin_right = 57.7297
 margin_bottom = -66.7838
-custom_styles/fg = SubResource( 20 )
-custom_styles/bg = SubResource( 21 )
+custom_styles/fg = SubResource( 14 )
+custom_styles/bg = SubResource( 15 )
 custom_colors/font_color = Color( 1, 1, 1, 0 )
 value = 100.0
 __meta__ = {
@@ -334,7 +333,7 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 0.0430662, 111.596 )
-texture = SubResource( 19 )
+texture = SubResource( 17 )
 
 [node name="FX" type="AnimationPlayer" parent="."]
-anims/damage = SubResource( 17 )
+anims/damage = SubResource( 18 )
