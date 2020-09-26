@@ -62,6 +62,8 @@ func on_show_main_menu():
 	$Account.visible = false
 	$Connect.visible = false
 	$Main.visible = true
+	visible = true
+	print(\"everything visible..\")
 
 func on_play_pressed():
 	$Main/AnimationPlayer.play(\"base\")

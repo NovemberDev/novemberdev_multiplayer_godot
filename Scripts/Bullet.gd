@@ -27,5 +27,5 @@ func on_body_entered(body):
 		if int(body.name) != owner_id:
 			if NetworkManager.is_server:
 				queue_free()
-				body.take_damage(owner_id, DAMAGE)
-				game_instance.server_broadcast_destroy(name)
+				body.take_damage(get_network_master(), DAMAGE)
+				game_instance.server_queue_free_broadcast(name, str(name))

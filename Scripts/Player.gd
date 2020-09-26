@@ -74,11 +74,13 @@ func set_anim(key, value):
 func take_damage(bullet_owner_id, damage):
 	health -= damage
 	$FX.play("damage")
-	game_instance.server_broadcast_health(int(name), health, true)
+	game_instance.server_broadcast_object({
+		type = "health",
+		value = health,
+		id = int(name)
+	})
 	if health <= 0.0:
 		game_instance.server_broadcast_death(bullet_owner_id, int(name))
-		game_instance.server_respawn(int(name))
-		queue_free()
 
 func die():
 	if is_network_master():
