@@ -18,6 +18,8 @@ var WSC : WebSocketClient
 signal client_on_connected
 signal client_on_disconnected
 signal client_start_connecting
+signal server_client_connected
+signal server_client_disconnected
 
 func _ready():
 	for i in range(OS.get_cmdline_args().size()):
@@ -65,7 +67,7 @@ func client_try_connect():
 	get_tree().network_peer.connect("server_disconnected", self, "client_on_disconnect_server")
 
 func client_on_disconnect_server():
-	Notifications.notify("Disconnected from server...")
+	Notifications.notify("Disconnected from Online-Services")
 	if !retry_connecting:
 		emit_signal("client_on_disconnected")
 	retry_connecting = true
@@ -78,15 +80,11 @@ func client_on_connected():
 # Server -----------
 func server_on_peer_connected(id):
 	Notifications.notify("Peer connected: " + str(id))
+	emit_signal("server_client_connected", int(id))
 	
 func server_on_peer_disconnected(id):
 	Notifications.notify("Peer disconnected " + str(id))
-	#var user = LobbyService.get_user(id)
-	#if user != null:
-	#	GLOBALS.dbg("NetworkService: Peer was connected: " + str(id) + ", " + str(user.name), 5)
-	#	user.disconnect_timeout = 10.0
-	#	recently_disconnected.push_back(user)
-	#	user.connected = false
+	emit_signal("server_client_disconnected", int(id))
 
 func caller():
 	return get_tree().get_rpc_sender_id()

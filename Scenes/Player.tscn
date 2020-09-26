@@ -244,7 +244,7 @@ extents = Vector2( 24.9816, 35.8542 )
 bg_color = Color( 0.203922, 0.392157, 0.839216, 1 )
 
 [sub_resource type="StyleBoxFlat" id=15]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
+bg_color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="Gradient" id=16]
 colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 1 )

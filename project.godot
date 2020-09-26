@@ -50,6 +50,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Tools="*res://Scripts/Autoloads/Tools.gd"
 UUID="*res://Scripts/Autoloads/UUID.gd"
 Notifications="*res://Scenes/Notifications.tscn"
 NetworkManager="*res://Scripts/Autoloads/NetworkManager.gd"

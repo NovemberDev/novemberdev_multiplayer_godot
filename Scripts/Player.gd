@@ -10,7 +10,6 @@ var game_instance
 var anim_state = {}
 var can_move = true
 var shoot_timeout = 0.0
-var velocity = Vector2.ZERO
 var direction_input = Vector2.ZERO
 var aim_direction = Vector2(0, -1)
 
@@ -20,11 +19,9 @@ func _ready():
 
 func _process(delta):
 	if !is_network_master(): return
-	$Camera2D.current = true
 	direction_input = Vector2.ZERO
-	
-	if shoot_timeout > 0.0:
-		shoot_timeout -= delta
+	$Camera2D.current = true
+	shoot_timeout -= delta
 	
 	if can_move:
 		if Input.is_key_pressed(KEY_W):
@@ -46,18 +43,19 @@ func _process(delta):
 		set_anim("parameters/movement/blend_position", Vector2(1, -1) * direction_input)
 		set_anim("parameters/movement_time/scale", direction_input.length())
 		
-		velocity = move_and_slide(direction_input * SPEED)
+		move_and_slide(direction_input * SPEED)
 
-func server_handle_cl_snapshot(client_snapshot):
-	global_position = client_snapshot.position
+func set_username(username):
+	self.username = username
+	$Info.text = str(username)
 
 func client_send_snapshot():
 	var cl_snapshot = ClientSnapshot.new()
 	cl_snapshot.position = global_position
 	game_instance.client_send_snapshot(cl_snapshot.to_object())
 
-func _physics_process(delta):
-	$Info.text = str(username)
+func server_handle_cl_snapshot(client_snapshot):
+	global_position = client_snapshot.position
 
 func set_anim(key, value):
 	if is_network_master():
@@ -65,9 +63,11 @@ func set_anim(key, value):
 			if anim_state[key] == value:
 				return
 		anim_state[key] = value
-		game_instance.rpc_id(1, "cl_sync_anim", {
-			key = key,
-			value = value
+		game_instance.client_object({
+			id = get_tree().get_network_unique_id(),
+			type = "anim",
+			value = value,
+			key = key
 		})
 		anim_tree.set(key, value)
 

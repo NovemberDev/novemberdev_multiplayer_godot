@@ -176,8 +176,23 @@ margin_right = 48.5
 margin_bottom = -10.0
 min_value = 2.0
 max_value = 5.0
-step = 1.0
 value = 5.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SPAWNS" type="Node2D" parent="."]
+
+[node name="0" type="Position2D" parent="SPAWNS"]
+position = Vector2( -599.722, -602.242 )
+
+[node name="1" type="Position2D" parent="SPAWNS"]
+position = Vector2( 602.242, -594.683 )
+
+[node name="2" type="Position2D" parent="SPAWNS"]
+position = Vector2( 602.242, 597.202 )
+
+[node name="3" type="Position2D" parent="SPAWNS"]
+position = Vector2( -604.762, 599.722 )
+
+[node name="4" type="Position2D" parent="SPAWNS"]

@@ -34,11 +34,11 @@ func on_lobby_start():
 
 # Account -------
 func setup_account_ui():
-	$Account/Login.connect(\"pressed\", self, \"on_authorize_pressed\", [false])
-	$Account/Register.connect(\"pressed\", self, \"on_authorize_pressed\", [true])
+	$Account/Login.connect(\"pressed\", self, \"on_authorize_pressed\", [\"login\"])
+	$Account/Register.connect(\"pressed\", self, \"on_authorize_pressed\", [\"register\"])
 	AuthService.connect(\"client_on_authorized\", self, \"on_show_main_menu\")
 	
-func on_authorize_pressed(is_register):
+func on_authorize_pressed(type):
 	if $Account/User.text.length() < 3 or $Account/User.text.length() > 12:
 		Notifications.notify(\"Invalid username (3 to 12 characters allowed)\")
 		return
@@ -46,7 +46,7 @@ func on_authorize_pressed(is_register):
 		Notifications.notify(\"Invalid password (6 to 32 characters allowed)\")
 		return
 	
-	AuthService.client_authorize($Account/User.text, $Account/Password.text, is_register)
+	AuthService.client_authorize($Account/User.text, $Account/Password.text, type)
 
 func set_auto_login(index):
 	$Account/User.text = AuthService.auto_login_creds[index].user
