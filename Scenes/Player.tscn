@@ -229,7 +229,7 @@ blend_mode = 1
 [sub_resource type="AnimationNodeTimeScale" id=11]
 
 [sub_resource type="AnimationNodeBlendTree" id=12]
-graph_offset = Vector2( -447, 56 )
+graph_offset = Vector2( -468, 15.7544 )
 nodes/movement/node = SubResource( 10 )
 nodes/movement/position = Vector2( -200, 100 )
 nodes/movement_time/node = SubResource( 11 )
@@ -274,10 +274,11 @@ script = ExtResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 light_mask = 2
-position = Vector2( 1.12246, -0.491079 )
-rotation = 0.134903
+position = Vector2( -0.977784, -0.48099 )
+rotation = -0.22887
 scale = Vector2( 7.32464, 7.32464 )
 frames = SubResource( 1 )
+frame = 1
 flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -290,7 +291,7 @@ anims/walk_sideways_right = SubResource( 5 )
 tree_root = SubResource( 12 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/movement/blend_position = Vector2( 0, 1 )
+parameters/movement/blend_position = Vector2( 0, -1 )
 parameters/movement_time/scale = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="."]

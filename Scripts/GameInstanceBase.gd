@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 # lag
 var lag = 0.0

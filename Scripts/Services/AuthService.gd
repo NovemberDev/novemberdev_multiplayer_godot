@@ -37,6 +37,7 @@ func _process(delta):
 		disconnect_timer = DISCONNECT_QUEUE_TIME
 		var user = disconnect_queue.pop_back()
 		emit_signal("server_on_client_logout", user)
+		user.save_state()
 		Users.erase(user.id)
 
 # Server -------
@@ -47,7 +48,8 @@ remote func cl_authenticate(data):
 		user.id = NetworkManager.caller()
 		Users[NetworkManager.caller()] = user
 		rpc_id(NetworkManager.caller(), "srv_authenticate", true, "Welcome " + user.name + "!", {
-			name = data.username
+			name = data.username,
+			token = user.token
 		})
 		emit_signal("server_on_client_login", user)
 	else:

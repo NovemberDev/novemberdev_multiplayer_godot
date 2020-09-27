@@ -1,7 +1,7 @@
 #
 # Author: @November_Dev
 # 
-extends Node
+extends ViewportContainer
 
 var waiting_queue = []
 var lobbies : Dictionary = {}
@@ -14,7 +14,8 @@ signal server_on_game_instance_created
 
 func _ready():
 	set_network_master(1)
-
+	rect_size = OS.window_size
+	
 # Client ------
 func client_play():
 	rpc_id(1, "cl_quick_play")

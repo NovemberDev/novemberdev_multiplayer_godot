@@ -32,7 +32,6 @@ func server_initialize_user(is_register):
 		# we open a file that is named by the token and extract the username 
 		# for further processing
 		var user_info = Tools.open_json_file("user://users/" + self.token.to_upper() + ".json")
-		print(user_info)
 		if user_info != null:
 			self.name = user_info.name
 	if directory.file_exists("user://users/" + self.name.to_upper() + ".json"):
@@ -63,3 +62,6 @@ func server_initialize_user(is_register):
 			loaded = true
 			return true
 	return false
+
+func save_state():
+	pass

@@ -42,7 +42,10 @@ func _process(delta):
 					var t = clamp((snapshot_buffer[1].time - snapshot_buffer[0].time) / (current_rendering_time - snapshot_buffer[0].time), 0, 1)
 					# lerp lerp, it do be smooth
 					var dist = (snapshot_buffer[1].time - snapshot_buffer[0].time) * 550.0
-					node.global_position = lerp(node.global_position, lerp(snapshot_buffer[0][entity_path].position, snapshot_buffer[1][entity_path].position, 1.0 - t), delta * dist * 0.5)
+					node.global_position = lerp(node.global_position, 
+							lerp(snapshot_buffer[0][entity_path].position, 
+							snapshot_buffer[1][entity_path].position, 1.0 - t), 
+							delta * dist * 0.5)
 					
 	
 func client_send_snapshot(snapshot):
